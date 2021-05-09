@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+
+{% block content %}
+
+
+{% load static %}
+
+<style>
+    .div1 {
+        background-color: indianred;
+        height: 220px;
+        width: 150px;
+    }
+
+    .div1 img {
+        width: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+</style>
+
+
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+
+
+
+
+
+{% if messages %}
+<div class="alert alert-danger alert-dismissible fade show messages" role="alert">
+    {% for message in messages %}
+    <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</div>
+    {% endfor %}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endif %}
+
+<div class="div1 mb-5 text-center">
+    <p>{{request.user}}</p>
+    <img src="{{pimage.image.url}}" alt="">
+</div>
+
+<div class="container">
+    <div>
+        <h1>{{image.myimage}}</h1>
+        <img src="{{image.myimage.url}}" alt="" style="background-size: cover; width: 40px;">
+    </div>
+
+    <div class="jumbotron ">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-group text-center">
+                <textarea name="mypost" class="form-control" id="exampleFormControlTextarea1" rows="10"
+                    cols="10"></textarea>
+
+            </div>
+            <input type="submit" value="Post" class="btn btn-info">
+            <a href="{% url 'upload' %}" class="btn btn-warning">Upload Photo</a>
+        </form>
+
+    </div>
+</div>
+
+<div class="container">
+    <h1 class="text-center text-white">My Post</h1>
+
+    <hr class="bg-white">
+
+    {% for main in user %}
+    <div class="jumbotron w-40 jumb1">
+        <h1>{{main.myuser.first_name}} {{main.myuser.last_name}}</h1> <span> <small>{{main.date}}</small>
+        </span>
+
+        <hr class="my-2">
+        <p>{{main.post}}</p>
+
+    </div>
+    {% endfor %}
+    {% for main in userimage %}
+    <div class="jumbotron w-40 jumb1">
+        <h1>{{main.myuser.first_name}} {{main.myuser.last_name}}</h1> <span> <small>{{main.date}}</small>
+        </span>
+
+        <hr class="my-2">
+        <img src="{{main.image.url}}" alt="" style="width: 200; height: 200px;">
+
+    </div>
+    {% endfor %}
+
+</div>
+
+
+{% endblock %}
